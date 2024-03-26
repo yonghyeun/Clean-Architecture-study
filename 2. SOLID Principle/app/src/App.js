@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
 
-function App() {
+export default function App({ num = 5, isUncomplete = false }) {
+  const [filterdTodo, _] = useFilteredTodo(num, isUncomplete);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <article>
+      <h1>Todo List TOP {num}</h1>
+      <ul>
+        {filterdTodo.map(({ title, completed, id }) => (
+          <li key={id} style={{ color: completed ? 'blue' : 'red' }}>
+            {title}
+          </li>
+        ))}
+      </ul>
+    </article>
   );
 }
 
-export default App;
+const useFilteredTodo = (num, isUncomplete) => {
+  const [filtedTodo, setFiltedTodo] = useState([]);
+
+  useEffect(() => {
+    const getTodos = async () => {
+      const endPoint = 'https://jsonplaceholder.typicode.com/todos';
+      const res = await fetch(endPoint, { method: 'GET' });
+      const body = await res.json();
+
+      const result = body.filter(({ completed }) =>
+        isUncomplete ? !completed : true,
+      );
+
+      const filterdTodo = (todo, num, start = 0) => todo.slice(start, num);
+
+      setFiltedTodo(filterdTodo(result, num));
+    };
+
+    getTodos();
+  }, []);
+
+  return [filtedTodo, setFiltedTodo];
+};
