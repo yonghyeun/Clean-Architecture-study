@@ -20,3 +20,13 @@
 
 > 중간 수준의 소프트웨어란 거대한 하나의 프로그램을 프로그래밍 할 때
 > 프로그램을 이루는 중간 단위의 집합인 모듈과 컴포넌트들을 의미한다.
+
+`SOLID` 원칙은 5가지 원칙의 첫 글자를 떼어 만들어진 이론이다.
+
+**S** ingle Response Principle - 단일 책임 원칙
+**O** pen Closed Principle - 개방 폐쇄 원칙
+**L** iskov Substitution Principle - 리스코프 치환 원칙
+**I** nterface Segregation Principle - 인터페이스 분리 원칙
+**D** ependency Inversion Principle - 의존성 역전 원칙
+
+하나씩 살펴보자
