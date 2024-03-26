@@ -1,42 +1,48 @@
-import { useEffect, useState } from 'react';
+import './App.css';
 
-export default function App({ num = 5, isUncomplete = false }) {
-  const [filterdTodo, _] = useFilteredTodo(num, isUncomplete);
-
+export default function App() {
   return (
-    <article>
-      <h1>Todo List TOP {num}</h1>
-      <ul>
-        {filterdTodo.map(({ title, completed, id }) => (
-          <li key={id} style={{ color: completed ? 'blue' : 'red' }}>
-            {title}
-          </li>
-        ))}
-      </ul>
-    </article>
+    <div>
+      <Button label='Just Button' />
+      <LoginButton />
+      <LogoutButton />
+    </div>
   );
 }
 
-const useFilteredTodo = (num, isUncomplete) => {
-  const [filtedTodo, setFiltedTodo] = useState([]);
+function Button({ label, ...props }) {
+  return <button {...props}>{label}</button>;
+}
 
-  useEffect(() => {
-    const getTodos = async () => {
-      const endPoint = 'https://jsonplaceholder.typicode.com/todos';
-      const res = await fetch(endPoint, { method: 'GET' });
-      const body = await res.json();
+function HoverButton({ label, onClick }) {
+  function handleMouseEnter(e) {
+    e.target.classList.add('active');
+  }
 
-      const result = body.filter(({ completed }) =>
-        isUncomplete ? !completed : true,
-      );
+  function handleMouseLeave(e) {
+    e.target.classList.remove('active');
+  }
 
-      const filterdTodo = (todo, num, start = 0) => todo.slice(start, num);
+  return (
+    <Button
+      label={label}
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    />
+  );
+}
 
-      setFiltedTodo(filterdTodo(result, num));
-    };
+function LoginButton({ label = 'LogIn' }) {
+  function handleLogin() {
+    /* 로그인 로직 */
+  }
+  return <HoverButton label={label} onClick={handleLogin} />;
+}
 
-    getTodos();
-  }, []);
-
-  return [filtedTodo, setFiltedTodo];
-};
+function LogoutButton({ label = 'LogOut' }) {
+  function handleLogout() {
+    /* 로그인 로직 */
+  }
+  return <HoverButton label={label} onClick={handleLogout} />;
+}
