@@ -1,13 +1,19 @@
-const users = {
-  lastName: 'dongdong',
-  age: 20,
-};
+import { useContext } from 'react';
 
-export default function GreetingName ({users}) {
-  return <h1>안녕하세요 {users.lastName} 님 </h1>
+export function App() {
+  return <FristComponent></FristComponent>;
 }
 
+export function FristComponent() {
+  return (
+    <div>
+      저는 첫번째 컴포넌트예요
+      <SecondComponent></SecondComponent>
+    </div>
+  );
+}
 
-export default function GreetingAge ({users}) {
-  return <h1>안녕하세요 {users.age} 살이시군요 </h1>
+export function SecondComponent() {
+  const content = useContext('ContentContext');
+  return <div>{content}</div>;
 }
